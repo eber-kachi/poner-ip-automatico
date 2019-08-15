@@ -1,4 +1,6 @@
 import os
+import time
+
 # file = open("ip.txt", "w")
 # file.write("2" + os.linesep)
 # file.close()
@@ -29,7 +31,7 @@ elif opcion=="2":
         archivo=open('ip.txt','r+')
         ipNumero=archivo.readline() 
         print("estas es la ip "+ipNumero)
-        os.system(f'netsh interface ipv4 set address name="Wi-Fi" static 192.168.1.{ipNumero} 255.255.255.0 192.168.1.1')
+        os.system(f'netsh interface ipv4 set address name="Ethernet" static 192.168.1.{ipNumero} 255.255.255.0 192.168.1.1')
         # archivEscribir=open('ip.txt','w')
         ipNumero = int(ipNumero) + 1 
         archivo.write(str(ipNumero))
@@ -38,12 +40,29 @@ elif opcion=="2":
 
     elif opcion == "2":
         # ip escrito
+        archivo=open('ip.txt','r+')
+        ipNumero=archivo.readline() 
         print("Dijite tipo de IP ejm(192.168.1.*automatico)")
         tipoIp=input()
         print("Mascara ejm(/24)")
-        tipoMascara=input()
+        tipoMascara=input() 
+        print (os.system('netsh interface ipv4 set address name="Ethernet" static {0}{1} {2} 192.168.1.1'.format(tipoIp,ipNumero,tipoMascara)))
 
-# raw_input()
+elif opcion=="2":
+    print("borrando ip")
+    os.system('ipconfig /release')
+    time.sleep(10)
+    os.system('ipconfig /renew')
+    time.sleep(10)
+    os.system('ipconfig /flushdns')
+    print("ya tiene su nueva ip")
+    print(os.system('ipconfig'))
+
+
+
+
+
+raw_input()
     
 
 
